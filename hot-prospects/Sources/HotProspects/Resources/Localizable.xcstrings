@@ -1,9 +1,6 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
-    "Alien" : {
-
-    },
     "Appearance" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -32,6 +29,12 @@
           }
         }
       }
+    },
+    "Blue" : {
+
+    },
+    "Change Color" : {
+
     },
     "Dark" : {
       "extractionState" : "stale",
@@ -62,6 +65,9 @@
         }
       }
     },
+    "Green" : {
+
+    },
     "Hello %@!" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -90,6 +96,9 @@
           }
         }
       }
+    },
+    "Hello, World!" : {
+
     },
     "Home" : {
       "extractionState" : "stale",
@@ -235,6 +244,9 @@
           }
         }
       }
+    },
+    "Red" : {
+
     },
     "Screen %lld" : {
       "extractionState" : "stale",
