@@ -204,9 +204,6 @@
         }
       }
     },
-    "One" : {
-
-    },
     "Powered by %@" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -294,9 +291,6 @@
         }
       }
     },
-    "Show Tab 2" : {
-
-    },
     "System" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -325,12 +319,6 @@
           }
         }
       }
-    },
-    "Tab 2" : {
-
-    },
-    "Two" : {
-
     },
     "Welcome" : {
       "extractionState" : "stale",
