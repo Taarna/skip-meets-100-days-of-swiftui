@@ -1,62 +1,63 @@
-
 import SwiftUI
 
-struct TemperatureUnit: Hashable {
-    let unit: UnitTemperature
-    let name: String
+enum DurationUnit: String, CaseIterable {
+    case seconds = "Seconds"
+    case minutes = "Minutes"
+    case hours = "Hours"
+    
+    var conversionFactor: Double {
+        switch self {
+        case .seconds: return 1
+        case .minutes: return 60
+        case .hours: return 3600
+        }
+    }
 }
 
 struct ContentView: View {
-    let temperatureUnits = [
-        TemperatureUnit(unit: UnitTemperature.celsius, name: "Celsius"),
-        TemperatureUnit(unit: UnitTemperature.kelvin, name: "Kelvin"),
-        TemperatureUnit(unit: UnitTemperature.fahrenheit, name: "Fahrenheit")
-    ]
+    @State private var inputUnit = DurationUnit.minutes
+    @State private var outputUnit = DurationUnit.minutes
+    @State private var time = "10"
     
-    @State private var inputUnitIndex = 1
-    @State private var outputUnitIndex = 1
-    
-    @State private var temperature = "0.0"
-    
-    private var outputTemperature: Double {
-        let inputUnit = temperatureUnits[inputUnitIndex].unit
-        let outputUnit = temperatureUnits[outputUnitIndex].unit
-        
-        let measurement = Measurement(value: Double(temperature) ?? 0, unit: inputUnit)
-        return measurement.converted(to: outputUnit).value
+    private var outputTime: Double {
+        guard let inputValue = Double(time) else { return 0 }
+        let baseValue = inputValue * inputUnit.conversionFactor
+        return baseValue / outputUnit.conversionFactor
     }
     
     var body: some View {
-        Section("Input temperature") {
-            Picker("Input unit", selection: $inputUnitIndex) {
-                ForEach(0..<temperatureUnits.count, id: \.self) { index in
-                    Text(temperatureUnits[index].name)
+        
+        VStack {
+            VStack {
+                Text("Input Time")
+                
+                Picker("Input unit", selection: $inputUnit) {
+                    ForEach(DurationUnit.allCases, id: \.self) { unit in
+                        Text(unit.rawValue)
+                    }
                 }
+                .pickerStyle(.segmented)
+                
+                TextField("Time", text: $time)
+                    .keyboardType(.numberPad)
             }
-            .pickerStyle(.segmented)
-            TextField("Temperature", text: $temperature)
-                .keyboardType(.numberPad)
-        }
-        .padding()
-
-        Section("Output temperature") {
-            Picker("Output unit", selection: $outputUnitIndex) {
-                ForEach(0..<temperatureUnits.count, id: \.self) { index in
-                    Text(temperatureUnits[index].name)
+            .padding()
+            
+            VStack {
+                Text("Output Time")
+                
+                Picker("Output unit", selection: $outputUnit) {
+                    ForEach(DurationUnit.allCases, id: \.self) { unit in
+                        Text(unit.rawValue)
+                    }
                 }
+                .pickerStyle(.segmented)
+                
+                Text(String(format: "%.2f", outputTime))
             }
-            .pickerStyle(.segmented)
-            HStack {
-                Text(outputTemperature.formatted())
-                Spacer()
-            }
+            .padding()
         }
-        .padding()
         
         Spacer()
     }
-}
-
-#Preview {
-    ContentView()
 }
