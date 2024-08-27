@@ -15,11 +15,15 @@ public struct RootView : View {
     }
 
     public var body: some View {
-        ContentView()
-            .task {
-                logger.log("Welcome to Skip on \(androidSDK != nil ? "Android" : "Darwin")!")
-                logger.warning("Skip app logs are viewable in the Xcode console for iOS; Android logs can be viewed in Studio or using adb logcat")
-            }
+        if #available(iOS 17.0, macOS 14.0, *) {
+            ContentView()
+                .task {
+                    logger.log("Welcome to Skip on \(androidSDK != nil ? "Android" : "Darwin")!")
+                    logger.warning("Skip app logs are viewable in the Xcode console for iOS; Android logs can be viewed in Studio or using adb logcat")
+                }
+        } else {
+            Text("No soup for you")
+        }
     }
 }
 

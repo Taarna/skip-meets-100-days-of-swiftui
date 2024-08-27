@@ -2,6 +2,7 @@
   "sourceLanguage" : "en",
   "strings" : {
     "Appearance" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -29,7 +30,11 @@
         }
       }
     },
+    "Continue" : {
+
+    },
     "Dark" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -57,7 +62,14 @@
         }
       }
     },
+    "Game finished!" : {
+
+    },
+    "Guess the Flag" : {
+
+    },
     "Hello %@!" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -86,6 +98,7 @@
       }
     },
     "Home" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -114,6 +127,7 @@
       }
     },
     "Item %lld" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -142,6 +156,7 @@
       }
     },
     "Light" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -170,6 +185,7 @@
       }
     },
     "Name" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -197,7 +213,11 @@
         }
       }
     },
+    "No soup for you" : {
+
+    },
     "Powered by %@" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -225,7 +245,14 @@
         }
       }
     },
+    "Reset" : {
+
+    },
+    "Score: %lld" : {
+
+    },
     "Screen %lld" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -254,6 +281,7 @@
       }
     },
     "Settings" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -282,6 +310,7 @@
       }
     },
     "System" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -309,7 +338,14 @@
         }
       }
     },
+    "Tap the flag of" : {
+
+    },
+    "Tries left: %lld" : {
+
+    },
     "Welcome" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -336,6 +372,9 @@
           }
         }
       }
+    },
+    "Your score is %lld" : {
+
     }
   },
   "version" : "1.0"

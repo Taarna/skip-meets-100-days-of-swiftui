@@ -1,74 +1,82 @@
 import SwiftUI
 
+@available(iOS 17.0, macOS 14.0, *)
 public struct ContentView: View {
-    @AppStorage("tab") var tab = Tab.welcome
-    @AppStorage("name") var name = "Skipper"
-    @State var appearance = ""
-    @State var isBeating = false
-
-    public init() {
-    }
-
+    
+    @State private var viewModel = ViewModel()
+    
+    @State private var animationRotation = 0.0
+    
+    @State private var buttonOpacity = 1.0
+    @State private var scaleFactor = 1.0
+    
     public var body: some View {
-        TabView(selection: $tab) {
-            VStack(spacing: 0) {
-                Text("Hello \(name)!")
-                    .padding()
-                Image(systemName: "heart.fill")
-                    .foregroundStyle(.red)
-                    .scaleEffect(isBeating ? 1.5 : 1.0)
-                    .animation(.easeInOut(duration: 1).repeatForever(), value: isBeating)
-                    .onAppear { isBeating = true }
-            }
-            .font(.largeTitle)
-            .tabItem { Label("Welcome", systemImage: "heart.fill") }
-            .tag(Tab.welcome)
+        ZStack {
+            RadialGradient(stops: [
+                .init(color: Color(red: 0.1, green: 0.2, blue: 0.45), location: 0.3),
+                .init(color: Color(red: 0.76, green: 0.15, blue: 0.26), location: 0.3),
+            ], center: .top, startRadius: 200, endRadius: 400)
+            .ignoresSafeArea()
+            
+            VStack {
+                Spacer()
+                Text("Guess the Flag")
+                    .font(.largeTitle.bold())
+                    .foregroundStyle(.white)
+                VStack(spacing: 15) {
+                    VStack {
+                        Text("Tap the flag of")
+                            .foregroundStyle(.secondary)
+                            .font(.subheadline.weight(.heavy))
+                        Text(viewModel.getCorrectCountry())
+                            .font(.largeTitle.weight(.semibold))
+                        ForEach(0..<3) { number in
+                            let country = viewModel.countries[number]
+                            let label = viewModel.labels[country] ?? ""
+                            FlagView(flagImage: country, accessibilityLabel: label) {
+                                viewModel.flagTapped(number)
+                            } animation: {
+                                animationRotation += 360
+                                buttonOpacity = 0.25
+                                scaleFactor = 0.8
+                            }
+#if !SKIP
+                            .rotation3DEffect(.degrees(viewModel.selectedIndex == number ? animationRotation : 0), axis: (x: 0, y: 1, z: 0))
+                            .opacity(viewModel.selectedIndex == number ? 1.0 : buttonOpacity)
+                            .scaleEffect(viewModel.selectedIndex == number ? 1.0 : scaleFactor)
+#endif
 
-            NavigationStack {
-                List {
-                    ForEach(1..<1_000) { i in
-                        NavigationLink("Item \(i)", value: i)
-                    }
-                }
-                .navigationTitle("Home")
-                .navigationDestination(for: Int.self) { i in
-                    Text("Item \(i)")
-                        .font(.title)
-                        .navigationTitle("Screen \(i)")
-                }
-            }
-            .tabItem { Label("Home", systemImage: "house.fill") }
-            .tag(Tab.home)
-
-            NavigationStack {
-                Form {
-                    TextField("Name", text: $name)
-                    Picker("Appearance", selection: $appearance) {
-                        Text("System").tag("")
-                        Text("Light").tag("light")
-                        Text("Dark").tag("dark")
-                    }
-                    HStack {
-                        #if SKIP
-                        ComposeView { ctx in // Mix in Compose code!
-                            androidx.compose.material3.Text("💚", modifier: ctx.modifier)
                         }
-                        #else
-                        Text(verbatim: "💙")
-                        #endif
-                        Text("Powered by \(androidSDK != nil ? "Jetpack Compose" : "SwiftUI")")
                     }
-                    .foregroundStyle(.gray)
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 20)
+                    .background(Color.white.opacity(0.7))
+                    .cornerRadius(20)
+                    
+                    Spacer()
+                    Spacer()
+                    Text("Score: \(viewModel.score)")
+                        .foregroundStyle(.white)
+                        .font(.title.bold())
+                    Text("Tries left: \(viewModel.numberOfTries)")
+                        .foregroundStyle(.white)
+                        .font(.title)
+                    Spacer()
                 }
-                .navigationTitle("Settings")
+                .padding()
             }
-            .tabItem { Label("Settings", systemImage: "gearshape.fill") }
-            .tag(Tab.settings)
+            .alert(viewModel.scoreTitle, isPresented: $viewModel.showingScore) {
+                Button("Continue", action: {
+                    viewModel.askQuestion()
+                })
+            } message: {
+                Text("Your score is \(viewModel.score)")
+            }
+            .alert("Game finished!", isPresented: $viewModel.showingGameFinished) {
+                Button("Reset", action: viewModel.resetGame)
+            } message: {
+                Text("Your score is \(viewModel.score)")
+            }
         }
-        .preferredColorScheme(appearance == "dark" ? .dark : appearance == "light" ? .light : nil)
     }
-}
-
-enum Tab : String, Hashable {
-    case welcome, home, settings
 }
